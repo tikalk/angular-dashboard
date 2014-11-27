@@ -27,10 +27,6 @@ angular
         templateUrl: 'views/flot.html',
         controller: 'FlotCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
       .when('/morris', {
         templateUrl: 'views/morris.html',
         controller: 'MorrisCtrl'
