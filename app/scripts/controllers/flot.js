@@ -8,8 +8,10 @@
  * Controller of the angularDashboardApp
  */
 angular.module('angularDashboardApp')
-  .controller('FlotCtrl', ['$scope', 'FlotService', function ($scope, FlotService) {
+  .controller('FlotCtrl', ['$scope', '$interval', 'FlotService', function ($scope, $interval, FlotService) {
     //Flot Line Chart
+    
+
     var offset = 0;
     plot();
 
@@ -47,38 +49,42 @@ angular.module('angularDashboardApp')
             }
         };
 
-        var plotObj = $.plot($("#flot-line-chart"), [{
-                data: sin,
-                label: "sin(x)"
-            }, {
-                data: cos,
-                label: "cos(x)"
-            }],
-            options);
+        $scope.lineChartData = [{
+            data: sin,
+            label: "sin(x)"
+        }, {
+            data: cos,
+            label: "cos(x)"
+        }];
+
+        $scope.lineChartOptions = options;
+
     }
     //End - Flot Line Chart
 
 	//Flot Pie Chart
 	FlotService.getPieChartData().then(function(data){
-		var plotObj = $.plot($("#flot-pie-chart"), data, {
-	        series: {
-	            pie: {
-	                show: true
-	            }
-	        },
-	        grid: {
-	            hoverable: true
-	        },
-	        tooltip: true,
-	        tooltipOpts: {
-	            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-	            shifts: {
-	                x: 20,
-	                y: 0
-	            },
-	            defaultTheme: false
-	        }
-	    });
+        $scope.pieChartData = data;
+        $scope.pieChartOptions = {
+            series: {
+                pie: {
+                    show: true
+                }
+            },
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false
+            }
+        };
+
 	},function(reason){
   		console.log(reason);
   	})
@@ -92,50 +98,51 @@ angular.module('angularDashboardApp')
 	    }
 
 	    function doPlot(position) {
-	        $.plot($("#flot-line-chart-multi"), [{
-	            data: data.oilPrices,
-	            label: "Oil price ($)"
-	        }, {
-	            data: data.exchangeRates,
-	            label: "USD/EUR exchange rate",
-	            yaxis: 2
-	        }], {
-	            xaxes: [{
-	                mode: 'time'
-	            }],
-	            yaxes: [{
-	                min: 0
-	            }, {
-	                // align if we are to the right
-	                alignTicksWithAxis: position == "right" ? 1 : null,
-	                position: position,
-	                tickFormatter: euroFormatter
-	            }],
-	            legend: {
-	                position: 'sw'
-	            },
-	            grid: {
-	                hoverable: true //IMPORTANT! this is needed for tooltip to work
-	            },
-	            tooltip: true,
-	            tooltipOpts: {
-	                content: "%s for %x was %y",
-	                xDateFormat: "%y-%0m-%0d",
+            $scope.mulLineChartData = [{
+                data: data.oilPrices,
+                label: "Oil price ($)"
+            }, {
+                data: data.exchangeRates,
+                label: "USD/EUR exchange rate",
+                yaxis: 2
+            }];
 
-	                onHover: function(flotItem, $tooltipEl) {
-	                    // console.log(flotItem, $tooltipEl);
-	                }
-	            }
+            $scope.mulLineChartOptions = {
+                xaxes: [{
+                    mode: 'time'
+                }],
+                yaxes: [{
+                    min: 0
+                }, {
+                    // align if we are to the right
+                    alignTicksWithAxis: position == "right" ? 1 : null,
+                    position: position,
+                    tickFormatter: euroFormatter
+                }],
+                legend: {
+                    position: 'sw'
+                },
+                grid: {
+                    hoverable: true //IMPORTANT! this is needed for tooltip to work
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%s for %x was %y",
+                    xDateFormat: "%y-%0m-%0d",
 
-	        });
+                    onHover: function(flotItem, $tooltipEl) {
+                        // console.log(flotItem, $tooltipEl);
+                    }
+                }
 
+            };
 	    }
 
     	doPlot("right");
 		
-	    $("button").click(function() {
+	    /*$("button").click(function() {
 	        doPlot($(this).text());
-	    });
+	    });*/
 
     },function(reason){
   		console.log(reason);
@@ -143,7 +150,7 @@ angular.module('angularDashboardApp')
 	//End - Flot Multiple Axes Line Chart
 
 	//Flot Moving Line Chart
-    var container = $("#flot-line-chart-moving");
+    var container = $("flot");
 
     // Determine how many data points to keep based on the placeholder's initial size;
     // this gives us a nice high-res plot while avoiding more than one point per pixel.
@@ -176,16 +183,14 @@ angular.module('angularDashboardApp')
 
     //
 
-    var series = [{
+    $scope.movingLineChartData = [{
         data: getRandomData(),
         lines: {
             fill: true
         }
     }];
 
-    //
-
-    var plot = $.plot(container, series, {
+    $scope.movingLineChartOptions = {
         grid: {
             borderWidth: 1,
             minBorderMargin: 20,
@@ -225,14 +230,12 @@ angular.module('angularDashboardApp')
         legend: {
             show: true
         }
-    });
+    };
 
     // Update the random dataset at 25FPS for a smoothly-animating chart
 
-    setInterval(function updateRandom() {
-        series[0].data = getRandomData();
-        plot.setData(series);
-        plot.draw();
+    $interval(function() {
+        $scope.movingLineChartData[0].data = getRandomData();
     }, 40);
     //End - Flot Moving Line Chart
 
@@ -266,7 +269,9 @@ angular.module('angularDashboardApp')
 	        label: "bar",
 	        data: data 
 	    };
-	    $.plot($("#flot-bar-chart"), [barData], barOptions);
+
+        $scope.barChartData = [barData];
+        $scope.barChartOptions = barOptions;
 	});
 
 	//End - Flot Bar Chart
