@@ -12,11 +12,17 @@
     <link rel="stylesheet" href="bower_components/morrisjs/morris.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
+    <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <!-- DataTables CSS -->
+    <link rel="bower_components/angular-datatables/dist/dataTables.bootstrap.css">
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" />
 
     <!-- Custom Fonts -->
     <link href="bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -172,10 +178,10 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <!--<li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                        </li>
                         <li>
+                            <a href="#/tables"><i class="fa fa-table fa-fw"></i> Tables</a>
+                        </li>
+                        <!--<li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
                         </li>
                         <li>
@@ -285,6 +291,8 @@
     <script src="bower_components/mocha/mocha.js"></script>
     <script src="bower_components/morrisjs/morris.js"></script>
     <script src="bower_components/metisMenu/dist/metisMenu.js"></script>
+    <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
     <!-- endbower -->
 
 
@@ -294,13 +302,15 @@
     <!-- Flot Charts JavaScript -->
     <script src="bower_components/angular-flot/angular-flot.js"></script>
 
+    <script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
 
-    <script src="bower_components/flot/excanvas.min.js"></script>
+
     <script src="bower_components/flot/jquery.flot.js"></script>
-    <script src="bower_components/flot/jquery.flot.pie.js"></script>
+    <script src="bower_components/flot/jquery.flot.pie.js"></script>-->
     <script src="bower_components/flot/jquery.flot.resize.js"></script>
     <script src="bower_components/flot/jquery.flot.time.js"></script>
     <script src="bower_components/flot.tooltip/js/jquery.flot.tooltip.js"></script>
+
 
     <!-- endbuild -->
 
@@ -314,6 +324,8 @@
         <script src="scripts/services/flot.js"></script>
         <script src="scripts/services/morris.js"></script>
         <script src="scripts/services/topnavbar.js"></script>
+        <script src="scripts/controllers/tables.js"></script>
+        <script src="scripts/services/tables.js"></script>
         <!-- endbuild -->
 </body>
 </html>

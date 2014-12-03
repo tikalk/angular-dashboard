@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'angular-flot'
+    'angular-flot',
+    'datatables'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -31,6 +32,10 @@ angular
       .when('/morris', {
         templateUrl: 'views/morris.html',
         controller: 'MorrisCtrl'
+      })
+      .when('/tables', {
+        templateUrl: 'views/tables.html',
+        controller: 'TablesCtrl'
       })
       .otherwise({
         redirectTo: '/'
